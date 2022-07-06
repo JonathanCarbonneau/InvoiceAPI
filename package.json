@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "mdb-ui-kit": "^4.2.0",
+    "ng2-charts": "^2.4.2",
+    "chart.js": "^2.9.3"
+  }
+}

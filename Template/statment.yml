@@ -1,0 +1,26 @@
+issuer: YOUR CARD PROCESSING STATEMENT
+keywords:
+  - YOUR CARD PROCESSING STATEMENT
+  - FEES CHARGED
+fields:
+  amount: Total Amount Submitted\s+(?:|\-)(?:|\$)(?:|\s)(?=.)((?:0|(?:[0-9](?:\d*|\d{0,2}(?:,\d{3})*)))?(?:\.\d*[0-9])?)(?!\S)
+  date: Statement Period\s+(\d\d\/\d\d\/\d\d)\s+\-\s+\d\d\/\d\d\/\d\d
+  invoice_number: Merchant Number\s+(\d+)
+  issuer: Write To:\s+(\w+\s+\w+\s+\w+)
+  Statement_Period_start: Statement Period\s+(\d\d\/\d\d\/\d\d)\s+\-\s+\d\d\/\d\d\/\d\d
+  Statement_Period_end: Statement Period\s+\d\d\/\d\d\/\d\d\s+\-\s+(\d\d\/\d\d\/\d\d)
+  Merchant_Number: Merchant Number\s+(\d+)
+  Total_Amount_Submitted: Total Amount Submitted\s+(?:|\-)(?:|\$)(?:|\s)(?=.)((?:0|(?:[0-9](?:\d*|\d{0,2}(?:,\d{3})*)))?(?:\.\d*[0-9])?)(?!\S)
+  Chargebacks_Reversals: Chargebacks\/Reversals\s+(?:|\-)(?:|\$)(?:|\s)(?=.)((?:0|(?:[0-9](?:\d*|\d{0,2}(?:,\d{3})*)))?(?:\.\d*[0-9])?)(?!\S)
+  Adjustments: Adjustments\s+(?:|\-)(?:|\$)(?:|\s)(?=.)((?:0|(?:[0-9](?:\d*|\d{0,2}(?:,\d{3})*)))?(?:\.\d*[0-9])?)(?!\S)
+  Total_Interchange_Charges: Total Interchange Charges\s+(?:|(\-))(?:|\$)(?:|\s)(?=.)((?:0|(?:[0-9](?:\d*|\d{0,2}(?:,\d{3})*)))?(?:\.\d*[0-9])?)(?!\S)
+  Total_Service_Charges: Total Service Charges\s+(?:|(\-))(?:|\$)(?:|\s)(?=.)((?:0|(?:[0-9](?:\d*|\d{0,2}(?:,\d{3})*)))?(?:\.\d*[0-9])?)(?!\S)
+  Total_Fees: Total Fees\s+(?:|(\-))(?:|\$)(?:|\s)(?=.)((?:0|(?:[0-9](?:\d*|\d{0,2}(?:,\d{3})*)))?(?:\.\d*[0-9])?)(?!\S)
+  Fees: Total \(Service Charges, Interchange Charges, and Fees\)\s+(?:|(\-))(?:|\$)(?:|\s)(?=.)((?:0|(?:[0-9](?:\d*|\d{0,2}(?:,\d{3})*)))?(?:\.\d*[0-9])?)(?!\S)
+  SUMMARY_BY_DAY:
+    parser: lines
+    start: SUMMARY BY DAY
+    end: SUMMARY BY CARD TYPE
+    line: (?P<Date_Submitted>\d\d\/\d\d\/\d\d|Month End Charge|Total)\s+(?P<Submitted_Amount>(?:|\-)(?:|\$)(?:|\s)(?=.)(?:0|(?:[0-9](?:\d*|\d{0,2}(?:,\d{3})*)))?(?:\.\d*[0-9])?(?!\S))\s+(?P<Chargebacks_Reversals>(?:|\-)(?:|\$)(?:|\s)(?=.)(?:0|(?:[0-9](?:\d*|\d{0,2}(?:,\d{3})*)))?(?:\.\d*[0-9])?(?!\S))\s+(?P<Adjustments>(?:|\-)(?:|\$)(?:|\s)(?=.)(?:0|(?:[0-9](?:\d*|\d{0,2}(?:,\d{3})*)))?(?:\.\d*[0-9])?(?!\S))\s+(?P<Fees>(?:|\-)(?:|\$)(?:|\s)(?=.)(?:0|(?:[0-9](?:\d*|\d{0,2}(?:,\d{3})*)))?(?:\.\d*[0-9])?(?!\S))\s+(?P<Amount_Processed>(?:|\-)(?:|\$)(?:|\s)(?=.)(?:0|(?:[0-9](?:\d*|\d{0,2}(?:,\d{3})*)))?(?:\.\d*[0-9])?(?!\S))
+options:
+  currency: USD
