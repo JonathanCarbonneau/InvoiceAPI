@@ -10,7 +10,7 @@ from werkzeug.utils import secure_filename
 from invoice2data import extract_data
 from invoice2data.extract.loader import read_templates
 
-UPLOAD_FOLDER = 'testcase'
+UPLOAD_FOLDER = '/tmp/'
 
 app = Flask(__name__)
 app.secret_key = "secret key"
@@ -47,15 +47,15 @@ def upload_file():
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         templates = read_templates('Template/')  # load templates
         # writes pdf to dictionary result
-        result = extract_data('testcase/' + filename, templates=templates)
+        result = extract_data('/tmp/' + filename, templates=templates)
         if (not result):
             resp = jsonify(
                 {'message': 'This PDF is currently not supported please make sure that you are using a orignal statment.'})
             resp.status_code = 400
             return resp
         # delete the file
-        if os.path.exists('testcase/' + filename):
-            os.remove('testcase/' + filename)
+        if os.path.exists('/tmp/' + filename):
+            os.remove('/tmp/' + filename)
         else:
             print("The file does not exist not removed")
 
