@@ -6,7 +6,7 @@ from tabnanny import filename_only
 from webbrowser import get
 from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
-
+from flask_cors import CORS
 from invoice2data import extract_data
 from invoice2data.extract.loader import read_templates
 
@@ -16,7 +16,7 @@ app = Flask(__name__)
 app.secret_key = "secret key"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
-
+CORS(app)
 ALLOWED_EXTENSIONS = set(['pdf'])
 
 # converts currency data to a float value
