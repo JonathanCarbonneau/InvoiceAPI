@@ -9,8 +9,9 @@ from werkzeug.utils import secure_filename
 from flask_cors import CORS
 from invoice2data import extract_data
 from invoice2data.extract.loader import read_templates
+from gevent.pywsgi import WSGIServer
 
-UPLOAD_FOLDER = '/tmp/'
+UPLOAD_FOLDER = 'pdfs'
 
 app = Flask(__name__)
 app.secret_key = "secret key"
@@ -47,15 +48,15 @@ def upload_file():
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         templates = read_templates('Template/')  # load templates
         # writes pdf to dictionary result
-        result = extract_data('/tmp/' + filename, templates=templates)
+        result = extract_data('pdfs/' + filename, templates=templates)
         if (not result):
             resp = jsonify(
                 {'message': 'This PDF is currently not supported please make sure that you are using a orignal statment.'})
             resp.status_code = 400
             return resp
         # delete the file
-        if os.path.exists('/tmp/' + filename):
-            os.remove('/tmp/' + filename)
+        if os.path.exists('pdfs/' + filename):
+            os.remove('pdfs/' + filename)
         else:
             print("The file does not exist not removed")
 
@@ -92,4 +93,4 @@ def upload_file():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host = '127.0.0.1', port = 8000)
