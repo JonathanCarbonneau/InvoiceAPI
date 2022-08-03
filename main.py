@@ -6,7 +6,7 @@ from tabnanny import filename_only
 from webbrowser import get
 from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from invoice2data import extract_data
 from invoice2data.extract.loader import read_templates
 from gevent.pywsgi import WSGIServer
@@ -14,10 +14,11 @@ from gevent.pywsgi import WSGIServer
 UPLOAD_FOLDER = 'pdfs'
 
 app = Flask(__name__)
+cors = CORS(app)
 app.secret_key = "secret key"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
-CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 ALLOWED_EXTENSIONS = set(['pdf'])
 
 # converts currency data to a float value
@@ -30,8 +31,13 @@ def currency_data_to_foat(ammount):
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+@app.route('/')
+@cross_origin()
+def index():
+    return 'server up'
 
 @app.route('/file-upload', methods=['POST'])
+@cross_origin()
 def upload_file():
     # check if the post request has the file part
     if 'file' not in request.files:
@@ -93,4 +99,6 @@ def upload_file():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host = '127.0.0.1', port = 8000)
+	app.debug = True 
+	http_server = WSGIServer(('', 8000), app)
+	http_server.serve_forever()
